@@ -1,0 +1,59 @@
+$info-color: mediumblue;
+$info-back-color: white;
+#stats{
+    display: block;
+    left:45%;
+    position:fixed;
+    bottom:$button-padding;
+    background-color: rgba($info-back-color, .8);
+    color: $info-color;
+    border: 5px solid $info-color;
+    border-radius: 5rem;
+    font-size: 5rem;
+    width:5.5rem;
+    cursor: pointer;
+
+}
+#stats_view.hidden{
+    display: none;
+}
+#stats_view{
+    display:block;
+    position:absolute;
+    width: 86%;
+    top:0;
+    left:0;
+    background-color:white;
+    margin:5%;
+    padding:2%;
+    border-radius: 5px;
+    box-shadow: 0 0 20px 5px black;
+    transition-property: all;
+    transition-duration: .5s;
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+#stats_view {
+    table{
+        font-size:3em;
+        width:100%;
+        th{
+            text-align: left;
+        }
+        thead {
+                th{
+                font-size:1.25em;
+            }
+        }
+        td {
+            text-align: right;
+            color: black;
+        }
+        tbody{
+            font-size: 1em;
+            tr * {
+                border-bottom: 1px solid black;
+            }
+        }
+
+    }
+}

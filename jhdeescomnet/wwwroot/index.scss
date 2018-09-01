@@ -1,0 +1,37 @@
+$transform-degree : rotateY(25deg);
+$transform-rotate-duration: 1s;
+$button-padding: 5%;
+
+@import 'harold';
+@import 'stats';
+
+body{
+    margin:0;
+    font-family: sans-serif;
+    overflow-x:hidden;
+    background-color:#fff;
+    text-align: center;
+}
+@keyframes in_next_area{
+    from {transform: $transform-degree;}
+    to {transform: rotateY(0deg);}
+}
+@keyframes to_origin{
+    to {
+        top:0;
+        left:0;
+    }
+}
+
+button{
+    font-size:4em;
+    border-radius: .1em;
+    padding:10px;
+    font-weight: bold;
+}
+#event{
+    position:fixed;
+    right:$button-padding;
+    bottom:$button-padding;
+    background-color:white;
+}
