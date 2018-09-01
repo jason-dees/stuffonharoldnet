@@ -32,13 +32,16 @@ namespace jhdeescomnet.Controllers {
 			}
 
 			using (var image = new MagickImage(imagePath)) {
+                width = width == 0 ? image.Width : 0;
+                height = height == 0 ? image.Height : 0;
+
 				var ratio = (double)image.Width / image.Height;
 				var scalePercentage = new Percentage(100);
 				 
-				if(width/height > ratio || width == 0) { // too wide
+				if(width/height > ratio) {
 					scalePercentage = new Percentage((double)height / image.Height * 100);
 				}
-				else { //normal or too tall
+				else {
 					scalePercentage = new Percentage((double) width / image.Width * 100);
 				}
 
