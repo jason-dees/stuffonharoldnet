@@ -35,6 +35,7 @@ namespace jhdeescomnet {
 
 			app.UseHttpsRedirection();
 			app.UseMvc();
+			app.UseStaticFiles();
 		}
 	}
 }

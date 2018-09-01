@@ -37,7 +37,7 @@
             var self = this;
 
             var badIdea = new Date();
-            return fetch('/resize.php?width=' + window.innerWidth + '&height=' + window.innerHeight +'&noo' + badIdea.getMilliseconds())
+            return fetch('/api/image/random?width=' + window.innerWidth + '&height=' + window.innerHeight +'&noo' + badIdea.getMilliseconds())
                 .then(response => response.blob())
                 .then(self.addNewHarold.bind(self));
         }
