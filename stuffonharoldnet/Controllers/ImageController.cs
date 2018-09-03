@@ -18,10 +18,10 @@ namespace jhdeescomnet.Controllers {
 		}
 
 		[HttpGet("{imgName}", Name = "GetImage")]
-		public IActionResult GetImage([FromRoute]string imgName, [FromQuery]int width = 0, [FromQuery]int height = 0) {
-			var imagePath = $"{imageDirectory}/{imgName}";
+		public IActionResult GetImage([FromRoute]string imageName, [FromQuery]int width = 0, [FromQuery]int height = 0) {
+			var imagePath = $"{imageDirectory}/{imageName}";
 
-			if (imgName.ToLower() == "random"){
+			if (imageName.ToLower() == "random"){
 				var images = GetImageFileList(imageDirectory);
 				var random = new Random().Next(0, images.Count());
 				imagePath = images.ElementAt(random);
