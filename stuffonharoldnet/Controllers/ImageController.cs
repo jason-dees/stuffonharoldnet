@@ -17,7 +17,7 @@ namespace jhdeescomnet.Controllers {
 			return files.ToList();
 		}
 
-		[HttpGet("{imgName}", Name = "GetImage")]
+		[HttpGet("{imageName}", Name = "GetImage")]
 		public IActionResult GetImage([FromRoute]string imageName, [FromQuery]int width = 0, [FromQuery]int height = 0) {
 			var imagePath = $"{imageDirectory}/{imageName}";
 
@@ -32,17 +32,17 @@ namespace jhdeescomnet.Controllers {
 			}
 
 			using (var image = new MagickImage(imagePath)) {
-                width = width == 0 ? image.Width : 0;
-                height = height == 0 ? image.Height : 0;
+                width = width == 0 ? image.Width : width;
+                height = height == 0 ? image.Height : height;
 
 				var ratio = (double)image.Width / image.Height;
 				var scalePercentage = new Percentage(100);
 				 
-				if(width/height > ratio) {
+				if(width / height > ratio) {
 					scalePercentage = new Percentage((double)height / image.Height * 100);
 				}
 				else {
-					scalePercentage = new Percentage((double) width / image.Width * 100);
+					scalePercentage = new Percentage((double)width / image.Width * 100);
 				}
 
 				image.Resize(scalePercentage);
