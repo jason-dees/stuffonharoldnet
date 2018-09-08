@@ -38,12 +38,9 @@ namespace jhdeescomnet.Controllers {
 				var ratio = (double)image.Width / image.Height;
 				var scalePercentage = new Percentage(100);
 				 
-				if(width / height > ratio) {
-					scalePercentage = new Percentage((double)height / image.Height * 100);
-				}
-				else {
-					scalePercentage = new Percentage((double)width / image.Width * 100);
-				}
+				scalePercentage = width / height > ratio
+					? new Percentage((double)height / image.Height * 100)
+					: new Percentage((double)width / image.Width * 100);
 
 				image.Resize(scalePercentage);
 
