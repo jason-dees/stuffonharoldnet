@@ -4,34 +4,34 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using ImageMagick;
+using stuffonharoldnet.Services;
+using System.Threading.Tasks;
 
 namespace jhdeescomnet.Controllers {
 	[Route("api/[controller]")]
 	[ApiController]
 	public class ImageController : ControllerBase {
-		const string imageDirectory = "wwwroot/img";
-		[HttpGet(Name = "GetImages")]
-		public ActionResult<List<string>> Get() {
-			var files = GetImageFileList(imageDirectory).Select(name => name.Replace($"{imageDirectory}/", ""));
 
-			return files.ToList();
+		const string imageDirectory = "wwwroot/img";
+		readonly IKnowAzureImages _azureImageService;
+
+		public ImageController(IKnowAzureImages azureImages){
+			_azureImageService = azureImages;
 		}
 
-		[HttpGet("{imageName}", Name = "GetImage")]
-		public IActionResult GetImage([FromRoute]string imageName, [FromQuery]int width = 0, [FromQuery]int height = 0) {
-			var imagePath = $"{imageDirectory}/{imageName}";
+		[HttpGet(Name = "GetImages")]
+		public async Task<ActionResult<List<string>>> Get() {
+			return await GetImageFileList();
+		}
 
-			if (imageName.ToLower() == "random"){
-				var images = GetImageFileList(imageDirectory);
-				var random = new Random().Next(0, images.Count());
-				imagePath = images.ElementAt(random);
-			}
+		[HttpGet("random", Name = "GetImage")]
+		public async Task<IActionResult> GetImage([FromQuery]int width = 0, [FromQuery]int height = 0) {
 
-			if (!System.IO.File.Exists(imagePath)) {
-				return NotFound();
-			}
+			var images = await GetImageFileList();
+			var imageBytes = 
+				await _azureImageService.GetImage(images.ElementAt(new Random().Next(0, images.Count())));
 
-			using (var image = new MagickImage(imagePath)) {
+			using (var image = new MagickImage(imageBytes)) {
                 width = width == 0 ? image.Width : width;
                 height = height == 0 ? image.Height : height;
 
@@ -45,14 +45,13 @@ namespace jhdeescomnet.Controllers {
 				image.Resize(scalePercentage);
 
 				return File(image.ToByteArray(), "image/jpeg");
-
 			}
 
 			throw new Exception();
 		}
 
-		IEnumerable<string> GetImageFileList(string path){
-			return Directory.EnumerateFiles(path);
+		async Task<List<string>> GetImageFileList() {
+			return await _azureImageService.GetImageNames();
 		}
 	}
 }
