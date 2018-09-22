@@ -7,7 +7,7 @@
     left: 0;
     z-index: -1;
     overflow: hidden;
-    filter: blur(5px); }
+    filter: grayscale(0.75); }
   #harolds .harold-img:first-child img {
     animation: .1s sharpen; }
   #harolds .harold-img {
@@ -15,13 +15,13 @@
     #harolds .harold-img img {
       box-shadow: 0 0 20px 5px #444;
       background-color: white;
-      padding: 5%;
-      padding-bottom: 10%;
+      padding: 2%;
+      padding-bottom: 4%;
       max-width: 90%; }
 
 @keyframes sharpen {
   from {
-    filter: grayscale(1) blur(5px); }
+    filter: grayscale(0.75); }
   to {
     filter: none; } }
 #harolds .harold-img.out_next_area {

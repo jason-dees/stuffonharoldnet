@@ -1,3 +1,4 @@
+var global;
 (function h(){
     //Custom Elements don't work in Safari
     class HaroldImg {
@@ -57,9 +58,7 @@
     }
 
     var haroldWeightLbs = 10.1;
-    var current = -1;
-    var hasStarted = false;
-    var nextAreaPercent = .05;
+    var nextAreaPercent = .20;
     function start(){
         var harolds = document.querySelector('#harolds');
         var haroldQueue = new HaroldImageQueue(harolds);
@@ -108,30 +107,34 @@
             left: nextAreaPadding,
             right: window.innerWidth - nextAreaPadding
         };
-        var startFn = function(e){
+        var startMovementFn = function(e){
             if(isInNextPadding(getPoint(e))){
                 return;
             }
             e.preventDefault();
+            global = haroldImage();
             haroldImage().classList.add('drag');
             start = getPoint(e);
             previous = start;
             isDown = true;
         }
+
         var preventDefault = function(e){ e.preventDefault();}
-        addEventListener(harolds, ['mousedown', 'touchstart'], startFn);
+        addEventListener(harolds, ['mousedown', 'touchstart'], startMovementFn);
 
         harolds.addEventListener("dragstart", preventDefault);
-        harolds.addEventListener("drag",preventDefault); 
+        harolds.addEventListener("drag", preventDefault); 
         var downFn = function(e){
             if(isDown){
                 var current = getPoint(e);
+                console.log('Current Mouse', current);
                 if(isInNextPadding(current)){
                     nextEvent();
                     dragDone();
                     return;
                 }
                 var offset = calculateOffset(previous, current);
+                console.log("Offset", offset);
                 setOffsetPosition(haroldImage(), offset);
                 previous = current;
             }
@@ -164,18 +167,17 @@
 
         function setOffsetPosition(element, offset){
             var position = getPosition(element);
-            element.style.position = "absolute";
-            element.style.left = (offset.x * -1 + position.x) + "px";
-            element.style.top = (offset.y * -1 + position.y + window.scrollY) + "px";
+            element.style.position = "relative";
+            var left = (offset.x * -1 + position.x);
+            var top = (offset.y * -1 + position.y + window.scrollY);
+            console.log("Position", { x: left, y: top });
+            element.style.left = left + "px";
+            element.style.top =  top + "px";
         }
 
         function getPosition(element){
             var rect = element.getBoundingClientRect();
             return {x: rect.left, y: rect.top};
-        }
-
-        function setNewPosition(element, movement){
-            var position = getPosition(element);
         }
 
         function isInNextPadding(point){
@@ -222,8 +224,6 @@
             return;
         }
         element.addEventListener(eventType, function(e){
-            // console.log(eventType);
-            // document.getElementById('event').innerHTML = eventType;
             fn(e);
         });
     }

@@ -1,1 +1,1 @@
-[Stuff On Harold On Azure](https://stuffonharoldnet20180907072252.azurewebsites.net/)
+[Stuff On Harold On Azure](https://stuffonharold.azurewebsites.net)
