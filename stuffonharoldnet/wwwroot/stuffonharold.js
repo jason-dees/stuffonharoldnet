@@ -1,4 +1,3 @@
-var global;
 (function h(){
     //Custom Elements don't work in Safari
     class HaroldImg {
@@ -112,7 +111,6 @@ var global;
                 return;
             }
             e.preventDefault();
-            global = haroldImage();
             haroldImage().classList.add('drag');
             start = getPoint(e);
             previous = start;
@@ -127,14 +125,12 @@ var global;
         var downFn = function(e){
             if(isDown){
                 var current = getPoint(e);
-                console.log('Current Mouse', current);
                 if(isInNextPadding(current)){
                     nextEvent();
                     dragDone();
                     return;
                 }
                 var offset = calculateOffset(previous, current);
-                console.log("Offset", offset);
                 setOffsetPosition(haroldImage(), offset);
                 previous = current;
             }
@@ -170,7 +166,6 @@ var global;
             element.style.position = "relative";
             var left = (offset.x * -1 + position.x);
             var top = (offset.y * -1 + position.y + window.scrollY);
-            console.log("Position", { x: left, y: top });
             element.style.left = left + "px";
             element.style.top =  top + "px";
         }
