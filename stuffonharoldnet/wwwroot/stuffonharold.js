@@ -56,6 +56,17 @@
         }
     }
 
+    var Directions = {
+        Right: 0,
+        Left: 1,
+        Shake: 2
+    }
+    
+    class DirectionInformation {
+        constructor() { }
+
+    }
+
     var haroldWeightLbs = 10.1;
     var nextAreaPercent = .20;
     function start(){
@@ -87,11 +98,11 @@
                 hasShaken = true;
                 setTimeout(function(){hasShaken = false;},200);
                 shakeEvent();
+                sendDirection(Directions.Shake);
             }
         });
 
         return;
-        addSwipeListener();
     }
 
     function addSwipeListener(harolds, nextEvent){
@@ -119,30 +130,34 @@
 
         var preventDefault = function(e){ e.preventDefault();}
         addEventListener(harolds, ['mousedown', 'touchstart'], startMovementFn);
+        let nextEventWrapper = (point) => {
+            nextEvent();
+            if (isInNextPadding
+        };
 
         harolds.addEventListener("dragstart", preventDefault);
         harolds.addEventListener("drag", preventDefault); 
         var downFn = function(e){
             if(isDown){
-                var current = getPoint(e);
+                var currentPoint = getPoint(e);
                 if(isInNextPadding(current)){
-                    nextEvent();
+                    nextEventWrapper(currentPoint);
                     dragDone();
                     return;
                 }
-                var offset = calculateOffset(previous, current);
+                var offset = calculateOffset(previous, currentPoint);
                 setOffsetPosition(haroldImage(), offset);
-                previous = current;
+                previous = currentPoint;
             }
         };
         addEventListener(harolds, ['mousemove', 'touchmove'], downFn);
 
-        //TODO: Large images resize to smaller images on drag
         addEventListener(harolds, ['mouseup', 'touchend'], dragDone);
         addEventListener(harolds, 'click', function(e){
-            if(isInNextPadding(getPoint(e))){
+            let currentPoint = getPoint(e);
+            if (isInNextPadding(currentPoint)){
                 dragDone();
-                nextEvent();
+                nextEventWrapper(currentPoint);
             }
         });
 
@@ -175,9 +190,13 @@
             return {x: rect.left, y: rect.top};
         }
 
-        function isInNextPadding(point){
-            return point.x > nextArea.right || point.x < nextArea.left;
+        function isInNextPadding(point) {
+            return isInLeftPadding(point) || isInRightPadding(point); 
         }
+
+        let isInLeftPadding(point) => point.x < nextArea.left;
+        let isInRightPadding(point) => point.x > nextArea.right;
+
     }
 
     function fillInStuff(stuff){
@@ -234,6 +253,30 @@
         return 0;
     }
 
+    function sendDirection(direction) {
+        let route = 'api/shook';
+        switch (direction) {
+            case Directions.Right:
+                route = 'api/swipedright';
+                break;
+            case Directions.Left:
+                route = 'api/swipedleft';
+                break;
+            case Directions.Shake:
+                route = 'api/shook';
+                break;
+            default:
+                return;
+        }
+        fetch(route, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            },
+            body: JSON.stringify({})
+        }).then(response => console.log(response));
+    }
+
     fetch("stuff.json")
         .then( response => response.json())
         .then(json => fillInStuff(json));
@@ -245,6 +288,6 @@
 
     function poundsToGrams(pounds){
         var onePound = 453.59;
-        return pounds * 453.59;
+        return pounds * onePound;
     }
 })();

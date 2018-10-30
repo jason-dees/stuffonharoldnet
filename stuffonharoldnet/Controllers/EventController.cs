@@ -18,8 +18,9 @@ namespace stuffonharoldnet.Controllers
 			return null;
 		}
 
-		[HttpPost(Name = "HitNext")]
-		public async Task<ActionResult> HitNext() {
+        //I hate this word ugh
+		[HttpPost(Name = "Shook")]
+		public async Task<ActionResult> Shook() {
 			return null;
 		}
     }
