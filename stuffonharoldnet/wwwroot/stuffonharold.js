@@ -57,9 +57,9 @@
     }
 
     var Directions = {
-        Right: 0,
         Left: 1,
-        Shake: 2
+        Right: 2,
+        Shake: 3 
     }
     
     class DirectionInformation {
@@ -67,7 +67,6 @@
 
     }
 
-    var haroldWeightLbs = 10.1;
     var nextAreaPercent = .20;
     function start(){
         var harolds = document.querySelector('#harolds');
@@ -132,7 +131,8 @@
         addEventListener(harolds, ['mousedown', 'touchstart'], startMovementFn);
         let nextEventWrapper = (point) => {
             nextEvent();
-            if (isInNextPadding
+            if (isInLeftPadding(point)) sendDirection(Directions.Left);
+            if (isInRightPadding(point)) sendDirection(Directions.Right);
         };
 
         harolds.addEventListener("dragstart", preventDefault);
@@ -194,100 +194,35 @@
             return isInLeftPadding(point) || isInRightPadding(point); 
         }
 
-        let isInLeftPadding(point) => point.x < nextArea.left;
-        let isInRightPadding(point) => point.x > nextArea.right;
+        let isInLeftPadding = (point) => point.x < nextArea.left;
+        let isInRightPadding = (point) => point.x > nextArea.right;
 
     }
 
-    function fillInStuff(stuff){
-        var total = 0;
-        var stuffTable = document.querySelector("#stuff_body");
-        var rowTemplate = document.querySelector("#stuff_row");
-
-        stuff.sort(sortStuff);
-
-        for(var i = 0; i< stuff.length; i++){
-            var thing = stuff[i];
-            total += parseFloat(thing.weight);
-            var cells = rowTemplate.content.querySelectorAll("td");
-            rowTemplate.content.querySelector('.item').textContent = thing.name;
-            rowTemplate.content.querySelector('.weight').textContent = thing.weight + 'g';
-            stuffTable.appendChild(document.importNode(rowTemplate.content, true));
-        }
-
-        document.querySelector('#total_stuff_weight').innerHTML = total + "g";
-        document.querySelector('#interesting').onclick = function(){
-            document.querySelector('#stats_view').className = 'hidden';
-        }
-    }
-
-    document.querySelector('#stats').onclick = function(){
-        document.querySelector('#stats_view').className = '';
-    }
-    document.addEventListener("keydown", function(e){
-        if(e.keyCode == 27){
-            document.querySelector('#stats_view').className = 'hidden';
-        }
-    });
-
-    function addEventListener(element, eventType, fn){
-        if(typeof(eventType) == "object"){
+    function addEventListener(element, eventType, fn) {
+        if (typeof (eventType) == "object") {
             eventType.forEach(e => {
                 addEventListener(element, e, fn);
             });
             return;
         }
-        element.addEventListener(eventType, function(e){
+        element.addEventListener(eventType, function (e) {
             fn(e);
         });
     }
-    function sortStuff(a, b){
-        var nameA = a.name.toUpperCase(); 
-        var nameB = b.name.toUpperCase();
-        if (nameA < nameB) {
-            return -1;
-        }
-        if (nameA > nameB) {
-            return 1;
-        }
-        return 0;
-    }
 
     function sendDirection(direction) {
-        let route = 'api/shook';
-        switch (direction) {
-            case Directions.Right:
-                route = 'api/swipedright';
-                break;
-            case Directions.Left:
-                route = 'api/swipedleft';
-                break;
-            case Directions.Shake:
-                route = 'api/shook';
-                break;
-            default:
-                return;
-        }
+        let route = 'api/Event/ImageChanged';
+        let changeEvent = {
+            Event: direction,
+            Image: "UNKNOWN YET"
+        };
         fetch(route, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json; charset=utf-8"
             },
-            body: JSON.stringify({})
+            body: JSON.stringify(changeEvent)
         }).then(response => console.log(response));
-    }
-
-    fetch("stuff.json")
-        .then( response => response.json())
-        .then(json => fillInStuff(json));
-
-    function setHaroldWeight(){
-        document.querySelector('#harold_weight').innerHTML = poundsToGrams(haroldWeightLbs) + "g";
-    };
-    setHaroldWeight();
-
-    function poundsToGrams(pounds){
-        var onePound = 453.59;
-        return pounds * onePound;
     }
 })();

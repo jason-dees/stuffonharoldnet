@@ -15,7 +15,6 @@
     <ApplicationURL>https://localhost:5001</ApplicationURL>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

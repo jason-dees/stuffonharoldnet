@@ -3,25 +3,28 @@ using System.Threading.Tasks;
 
 namespace stuffonharoldnet.Controllers
 {
-	[Route("api/[controller]")]
-	[ApiController]
-    public class EventController
+    [Route("api/[controller]")]
+    [ApiController]
+    public class EventController : ControllerBase
     {
 
-		[HttpPost(Name = "SwipedLeft")]
-		public async Task<ActionResult> SwipedLeft() {
-			return null;
-		}
+        [HttpPost("imagechanged", Name = "ImageChanged")]
+        public async Task<IActionResult> ImageChanged(ImageChangeEvent imageChangedEvent)
+        {
+            return this.Ok(imageChangedEvent);
+        }
 
-		[HttpPost(Name = "SwipedRight")]
-		public async Task<ActionResult> SwipedRight() {
-			return null;
-		}
+        public class ImageChangeEvent
+        {
+            public ImageChangeAction Event { get; set; }
+            public string Image { get; set; }
+        }
 
-        //I hate this word ugh
-		[HttpPost(Name = "Shook")]
-		public async Task<ActionResult> Shook() {
-			return null;
-		}
+        public enum ImageChangeAction
+        {
+            SwipeLeft,
+            SwipeRight,
+            Shake
+        }
     }
 }
