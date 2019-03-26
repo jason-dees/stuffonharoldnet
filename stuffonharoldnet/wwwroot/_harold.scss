@@ -1,38 +1,44 @@
 .harold-img{
 }
 #harolds {
-    text-align: center;
+	text-align: center;
 
-    .harold-img:nth-child(2){
-        position: absolute;
-        width:100%;
-        top:0;
-        left:0;
-        z-index: -1;
-        overflow: hidden;
-        filter: grayscale(.75);
-        img{
-        }
-    }
-    .harold-img:first-child img{
-        animation: .1s sharpen;
-    }
-    .harold-img.drag{
-    }
-    .harold-img {
-        height:100%;
-        img{
-            box-shadow: 0 0 20px 5px #444;
-            background-color: white;
-            padding:2%;
-            padding-bottom:4%;
-            max-width:90%;
-        }
-    }
+	.harold-img:nth-child(2) {
+		position: absolute;
+		width: 100%;
+		top: 0;
+		left: 0;
+		z-index: -1;
+		overflow: hidden;
+
+		img {
+		}
+	}
+
+	.harold-img:first-child img {
+		animation: .1s sharpen;
+	}
+
+	.harold-img.drag {
+		z-index: 20;
+	}
+
+	.harold-img {
+		z-index: 20;
+		height: 100%;
+
+		img {
+			box-shadow: 0 0 20px 5px #444;
+			background-color: white;
+			padding: 2%;
+			padding-bottom: 4%;
+			max-width: 90%;
+		}
+	}
 }
 @keyframes sharpen{
     from {
-        filter: grayscale(.75);
+        filter: none;
     }
     to {
         filter: none;

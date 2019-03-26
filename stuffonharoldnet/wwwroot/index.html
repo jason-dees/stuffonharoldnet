@@ -5,47 +5,45 @@
     <title>Stuff on Harold</title>
     <link rel="stylesheet" href="/index.css">
     </head>
-    <body>
-        <div  style="width:100%;" id="harolds"></div>
-        <a id="stats">i</a>
-        <div id="event"></div>
-        <div id="stats_view" class="hidden">
-            <table>
-                <tbody>
-                    <tr>
-                        <th>
-                            Harold's Total Weight
-                        </th>
-                        <td id="harold_weight">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            Stuff's Total Weight
-                        </th>
-                        <td id="total_stuff_weight">
-                            
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <br>
-            <table>
-                <thead>
-                    <tr><th colspan="2">All The Stuff</th></tr>
-                </thead>
-                <tbody id="stuff_body">
-                </tbody>
-            </table>
-            <br>
-            <button id="interesting">Interesting...</button>
-        </div>
-        <template id="stuff_row">
-            <tr>
-                <th class="item"></th>
-                <td class="weight"></td>
-            </tr>
-        </template>
-        <script type="text/javascript" src="stuffonharold.js"></script>
-    </body>
+	<body>
+		<div style="width:100%;" id="harolds"></div>
+		<div class="drop-area left"></div>
+		<div class="drop-area right"></div>
+		<a id="stats">i</a>
+		<div id="event"></div>
+		<div id="stats_view" class="hidden">
+			<table>
+				<tbody>
+					<tr>
+						<th>
+							Harold's Total Weight
+						</th>
+						<td id="harold_weight"></td>
+					</tr>
+					<tr>
+						<th>
+							Stuff's Total Weight
+						</th>
+						<td id="total_stuff_weight"></td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			<table>
+				<thead>
+					<tr><th colspan="2">All The Stuff</th></tr>
+				</thead>
+				<tbody id="stuff_body"></tbody>
+			</table>
+			<br>
+			<button id="interesting">Interesting...</button>
+		</div>
+		<template id="stuff_row">
+			<tr>
+				<th class="item"></th>
+				<td class="weight"></td>
+			</tr>
+		</template>
+		<script type="text/javascript" src="stuffonharold.js"></script>
+	</body>
     </html>

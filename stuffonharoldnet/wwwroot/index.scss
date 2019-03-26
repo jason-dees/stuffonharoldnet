@@ -1,6 +1,9 @@
 $transform-degree : rotateY(25deg);
 $transform-rotate-duration: 1s;
 $button-padding: 5%;
+$drop-width: 20%;
+$gradient-start: rgba(0,0,0,0);
+$gradient-end: rgba(0,0,0,.25);
 
 @import 'harold';
 @import 'stats';
@@ -34,4 +37,24 @@ button{
     right:$button-padding;
     bottom:$button-padding;
     background-color:white;
+}
+.drop-area {
+	width: $drop-width;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	opacity:1;
+	z-index:-1;
+}
+.drop-area.left{
+	left:0;
+}
+.drop-area.right {
+	right: 0;
+}
+.drop-area.active.left {
+	background-image: linear-gradient(to left, $gradient-start, $gradient-end);
+}
+.drop-area.active.right {
+	background-image: linear-gradient(to right, $gradient-start, $gradient-end);
 }

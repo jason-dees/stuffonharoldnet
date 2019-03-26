@@ -12,7 +12,7 @@ $info-back-color: white;
     font-size: 5rem;
     width:5.5rem;
     cursor: pointer;
-
+	z-index:30;
 }
 #stats_view.hidden{
     display: none;

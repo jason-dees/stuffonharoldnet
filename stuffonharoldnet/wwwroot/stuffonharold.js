@@ -91,7 +91,6 @@
         });
 
         return;
-        addSwipeListener();
     }
 
     function addSwipeListener(harolds, nextEvent){
@@ -105,7 +104,19 @@
         let nextArea = {
             left: nextAreaPadding,
             right: window.innerWidth - nextAreaPadding
-        };
+			};
+		var activateDropAreas = function(){
+            var dropAreas = document.getElementsByClassName('drop-area');
+            for(var i = 0; i < dropAreas.length; i++){
+                dropAreas[i].classList.add('active');
+            }
+		};
+		var deactivateDropAreas = function(){
+            var dropAreas = document.getElementsByClassName('drop-area');
+            for(var i = 0; i < dropAreas.length; i++){
+                dropAreas[i].classList.remove('active');
+            }
+		};
         var startMovementFn = function(e){
             if(isInNextPadding(getPoint(e))){
                 return;
@@ -115,6 +126,7 @@
             start = getPoint(e);
             previous = start;
             isDown = true;
+            activateDropAreas();
         }
 
         var preventDefault = function(e){ e.preventDefault();}
@@ -140,6 +152,7 @@
         //TODO: Large images resize to smaller images on drag
         addEventListener(harolds, ['mouseup', 'touchend'], dragDone);
         addEventListener(harolds, 'click', function(e){
+            console.log("Click")
             if(isInNextPadding(getPoint(e))){
                 dragDone();
                 nextEvent();
@@ -155,6 +168,7 @@
 
         function dragDone(){
             isDown = false;
+            deactivateDropAreas();
             haroldImage().style.position = "relative";
             haroldImage().style.left = "auto";
             haroldImage().style.top = "auto";

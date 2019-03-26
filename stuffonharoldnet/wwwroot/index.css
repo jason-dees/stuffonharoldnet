@@ -1,38 +1,51 @@
 #harolds {
-  text-align: center; }
-  #harolds .harold-img:nth-child(2) {
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    overflow: hidden;
-    filter: grayscale(0.75); }
-  #harolds .harold-img:first-child img {
-    animation: .1s sharpen; }
-  #harolds .harold-img {
-    height: 100%; }
-    #harolds .harold-img img {
-      box-shadow: 0 0 20px 5px #444;
-      background-color: white;
-      padding: 2%;
-      padding-bottom: 4%;
-      max-width: 90%; }
+  text-align: center;
+}
+#harolds .harold-img:nth-child(2) {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+#harolds .harold-img:first-child img {
+  animation: 0.1s sharpen;
+}
+#harolds .harold-img.drag {
+  z-index: 20;
+}
+#harolds .harold-img {
+  z-index: 20;
+  height: 100%;
+}
+#harolds .harold-img img {
+  box-shadow: 0 0 20px 5px #444;
+  background-color: white;
+  padding: 2%;
+  padding-bottom: 4%;
+  max-width: 90%;
+}
 
 @keyframes sharpen {
   from {
-    filter: grayscale(0.75); }
+    filter: none;
+  }
   to {
-    filter: none; } }
+    filter: none;
+  }
+}
 #harolds .harold-img.out_next_area {
   animation-name: out_next_area;
   animation-duration: 1s;
-  transform: rotateY(0deg); }
+  transform: rotateY(0deg);
+}
 
 #harolds .harold-img.in_next_area {
   animation-name: in_next_area;
   animation-duration: 1s;
-  transform: rotateY(25deg); }
+  transform: rotateY(25deg);
+}
 
 #stats {
   display: block;
@@ -45,10 +58,13 @@
   border-radius: 5rem;
   font-size: 5rem;
   width: 5.5rem;
-  cursor: pointer; }
+  cursor: pointer;
+  z-index: 30;
+}
 
 #stats_view.hidden {
-  display: none; }
+  display: none;
+}
 
 #stats_view {
   display: block;
@@ -62,50 +78,90 @@
   border-radius: 5px;
   box-shadow: 0 0 20px 5px black;
   transition-property: all;
-  transition-duration: .5s;
-  transition-timing-function: cubic-bezier(0, 1, 0.5, 1); }
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
 
 #stats_view table {
   font-size: 3em;
-  width: 100%; }
-  #stats_view table th {
-    text-align: left; }
-  #stats_view table thead th {
-    font-size: 1.25em; }
-  #stats_view table td {
-    text-align: right;
-    color: black; }
-  #stats_view table tbody {
-    font-size: 1em; }
-    #stats_view table tbody tr * {
-      border-bottom: 1px solid black; }
+  width: 100%;
+}
+#stats_view table th {
+  text-align: left;
+}
+#stats_view table thead th {
+  font-size: 1.25em;
+}
+#stats_view table td {
+  text-align: right;
+  color: black;
+}
+#stats_view table tbody {
+  font-size: 1em;
+}
+#stats_view table tbody tr * {
+  border-bottom: 1px solid black;
+}
 
 body {
   margin: 0;
   font-family: sans-serif;
   overflow-x: hidden;
   background-color: #fff;
-  text-align: center; }
+  text-align: center;
+}
 
 @keyframes in_next_area {
   from {
-    transform: rotateY(25deg); }
+    transform: rotateY(25deg);
+  }
   to {
-    transform: rotateY(0deg); } }
+    transform: rotateY(0deg);
+  }
+}
 @keyframes to_origin {
   to {
     top: 0;
-    left: 0; } }
+    left: 0;
+  }
+}
 button {
   font-size: 4em;
-  border-radius: .1em;
+  border-radius: 0.1em;
   padding: 10px;
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 #event {
   position: fixed;
   right: 5%;
   bottom: 5%;
-  background-color: white; }
+  background-color: white;
+}
+
+.drop-area {
+  width: 20%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  opacity: 1;
+  z-index: -1;
+}
+
+.drop-area.left {
+  left: 0;
+}
+
+.drop-area.right {
+  right: 0;
+}
+
+.drop-area.active.left {
+  background-image: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25));
+}
+
+.drop-area.active.right {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25));
+}
 
 /*# sourceMappingURL=index.css.map */
