@@ -2,17 +2,17 @@ $info-color: mediumblue;
 $info-back-color: white;
 #stats{
     display: block;
-    left:45%;
     position:fixed;
+	right:5%;
     bottom:$button-padding;
     background-color: rgba($info-back-color, .8);
     color: $info-color;
     border: 5px solid $info-color;
     border-radius: 5rem;
     font-size: 5rem;
-    width:5.5rem;
+    width:5rem;
     cursor: pointer;
-
+	z-index:30;
 }
 #stats_view.hidden{
     display: none;
@@ -34,8 +34,8 @@ $info-back-color: white;
 }
 #stats_view {
     table{
-        font-size:3em;
         width:100%;
+		border-spacing: 0px;
         th{
             text-align: left;
         }
