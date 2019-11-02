@@ -1,13 +1,18 @@
 #harolds {
   text-align: center;
 }
-#harolds .harold-img:nth-child(2) {
+#harolds .harold-img {
   position: absolute;
   width: 100%;
   top: 0;
   left: 0;
-  z-index: -1;
   overflow: hidden;
+}
+#harolds .harold-img:nth-child(2) {
+  z-index: -1;
+}
+#harolds .harold-img:nth-child(3) {
+  z-index: -2;
 }
 #harolds .harold-img:first-child img {
   animation: 0.1s sharpen;

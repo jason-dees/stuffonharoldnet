@@ -13,7 +13,7 @@
 
         remove(){
             this.Element.parentNode.removeChild(this.Element);
-        }
+		}
 
         set src(newSrc){
             this.Image.src = newSrc;
@@ -28,7 +28,8 @@
             var self = this;
             this.images = [];
             this.length = 3;
-            this.parent = haroldsElement;
+			this.parent = haroldsElement;
+			this.total = 0;
             
 			(function addHarold(haroldsLeft) {
 				if (haroldsLeft == 0) { return; }
@@ -56,10 +57,12 @@
             this.addImageElement();
         }
         addNewHarold(blob){
-            var self = this;
+			var self = this;
+			this.total++;
             var haroldImage = new HaroldImg();
             haroldImage.src = URL.createObjectURL(blob);
-            self.images.push(haroldImage);
+			self.images.push(haroldImage);
+			haroldImage.Element.setAttribute("data-count", this.total);
             self.parent.appendChild(haroldImage.Element);
         }
     }

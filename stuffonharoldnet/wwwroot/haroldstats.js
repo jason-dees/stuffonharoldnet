@@ -1,5 +1,5 @@
 ﻿(function () {
-	var haroldWeightLbs = 10.1;
+	var haroldWeightLbs = 8;
 	function fillInStuff(stuff) {
 		var total = 0;
 		var stuffTable = document.querySelector("#stuff_body");
