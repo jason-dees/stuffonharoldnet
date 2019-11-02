@@ -27,10 +27,18 @@
         constructor(haroldsElement){
             var self = this;
             this.images = [];
-            this.length = 2;
+            this.length = 3;
             this.parent = haroldsElement;
             
-            this.addImageElement().then(() => self.addImageElement());
+			(function addHarold(haroldsLeft) {
+				if (haroldsLeft == 0) { return; }
+				console.log("adding harold", haroldsLeft);
+				self.addImageElement()
+					.then(function () {
+						addHarold(--haroldsLeft);
+					});
+			})(this.length);
+			
         }
 
         addImageElement() {
@@ -56,7 +64,6 @@
         }
     }
 
-    var haroldWeightLbs = 10.1;
     var nextAreaPercent = .20;
     function start(){
         var harolds = document.querySelector('#harolds');
@@ -99,20 +106,28 @@
         let start = {x: 0, y: 0};
         let previous = {x: 0, y: 0};
         let isDown = false;
-        let velocity = {x: 0, y: 0};
-        let nextAreaPadding = window.innerWidth * nextAreaPercent;
-        let nextArea = {
-            left: nextAreaPadding,
-            right: window.innerWidth - nextAreaPadding
+		let velocity = { x: 0, y: 0 };
+		let nextArea;
+		let nextAreaCalculation = function () {
+			let nextAreaPadding = window.innerWidth * nextAreaPercent;
+			nextArea = {
+				left: nextAreaPadding,
+				right: window.innerWidth - nextAreaPadding
 			};
+		};
+		addEventListener(window, 'resize', function () { nextAreaCalculation(); console.log("resize"); });
+		nextAreaCalculation();
+		let isInNextPadding = function (point) {
+			return point.x > nextArea.right || point.x < nextArea.left;
+		};
 		var activateDropAreas = function(){
-            var dropAreas = document.getElementsByClassName('drop-area');
+			let dropAreas = document.getElementsByClassName('drop-area');
             for(var i = 0; i < dropAreas.length; i++){
                 dropAreas[i].classList.add('active');
             }
 		};
 		var deactivateDropAreas = function(){
-            var dropAreas = document.getElementsByClassName('drop-area');
+            let dropAreas = document.getElementsByClassName('drop-area');
             for(var i = 0; i < dropAreas.length; i++){
                 dropAreas[i].classList.remove('active');
             }
@@ -123,7 +138,8 @@
             }
             e.preventDefault();
             haroldImage().classList.add('drag');
-            start = getPoint(e);
+			start = getPoint(e);
+			console.log(start);
             previous = start;
             isDown = true;
             activateDropAreas();
@@ -134,10 +150,10 @@
 
         harolds.addEventListener("dragstart", preventDefault);
         harolds.addEventListener("drag", preventDefault); 
-        var downFn = function(e){
+		var downFn = function (e) {
             if(isDown){
-                var current = getPoint(e);
-                if(isInNextPadding(current)){
+				var current = getPoint(e);
+				if (isInNextPadding(current)) {
                     nextEvent();
                     dragDone();
                     return;
@@ -147,9 +163,8 @@
                 previous = current;
             }
         };
-        addEventListener(harolds, ['mousemove', 'touchmove'], downFn);
+		addEventListener(harolds, ['mousemove', 'touchmove'], downFn);
 
-        //TODO: Large images resize to smaller images on drag
         addEventListener(harolds, ['mouseup', 'touchend'], dragDone);
         addEventListener(harolds, 'click', function(e){
             console.log("Click")
@@ -162,8 +177,18 @@
         function calculateOffset(start, end){
             return {x: start.x - end.x, y: start.y - end.y};
         }
-        function getPoint(e){
-            return {x: e.pageX, y: e.pageY};
+		function getPoint(e) {
+			switch (e.type) {
+				case "mousedown":
+				case "mousemove":
+				case "click":
+					return { x: e.pageX, y: e.pageY };
+				case "touchstart":
+				case "touchmove":
+					return { x: e.changedTouches[0].pageX, y: e.changedTouches[0].pageY };
+			}
+			console.warn("Unrecognized event", e);
+			return {};
         }
 
         function dragDone(){
@@ -189,41 +214,8 @@
             return {x: rect.left, y: rect.top};
         }
 
-        function isInNextPadding(point){
-            return point.x > nextArea.right || point.x < nextArea.left;
-        }
     }
 
-    function fillInStuff(stuff){
-        var total = 0;
-        var stuffTable = document.querySelector("#stuff_body");
-        var rowTemplate = document.querySelector("#stuff_row");
-
-        stuff.sort(sortStuff);
-
-        for(var i = 0; i< stuff.length; i++){
-            var thing = stuff[i];
-            total += parseFloat(thing.weight);
-            var cells = rowTemplate.content.querySelectorAll("td");
-            rowTemplate.content.querySelector('.item').textContent = thing.name;
-            rowTemplate.content.querySelector('.weight').textContent = thing.weight + 'g';
-            stuffTable.appendChild(document.importNode(rowTemplate.content, true));
-        }
-
-        document.querySelector('#total_stuff_weight').innerHTML = total + "g";
-        document.querySelector('#interesting').onclick = function(){
-            document.querySelector('#stats_view').className = 'hidden';
-        }
-    }
-
-    document.querySelector('#stats').onclick = function(){
-        document.querySelector('#stats_view').className = '';
-    }
-    document.addEventListener("keydown", function(e){
-        if(e.keyCode == 27){
-            document.querySelector('#stats_view').className = 'hidden';
-        }
-    });
 
     function addEventListener(element, eventType, fn){
         if(typeof(eventType) == "object"){
@@ -236,29 +228,6 @@
             fn(e);
         });
     }
-    function sortStuff(a, b){
-        var nameA = a.name.toUpperCase(); 
-        var nameB = b.name.toUpperCase();
-        if (nameA < nameB) {
-            return -1;
-        }
-        if (nameA > nameB) {
-            return 1;
-        }
-        return 0;
-    }
 
-    fetch("stuff.json")
-        .then( response => response.json())
-        .then(json => fillInStuff(json));
 
-    function setHaroldWeight(){
-        document.querySelector('#harold_weight').innerHTML = poundsToGrams(haroldWeightLbs) + "g";
-    };
-    setHaroldWeight();
-
-    function poundsToGrams(pounds){
-        var onePound = 453.59;
-        return pounds * 453.59;
-    }
 })();

@@ -21,19 +21,22 @@
 
 	.harold-img.drag {
 		z-index: 20;
+		img{
+		background-color:#CCE6FF;
+		}
 	}
 
 	.harold-img {
-		z-index: 20;
 		height: 100%;
 
 		img {
 			box-shadow: 0 0 20px 5px #444;
 			background-color: white;
-			padding: 2%;
-			padding-bottom: 4%;
+			padding: 20px;
+			padding-bottom: 40px;
 			max-width: 90%;
 		}
+
 	}
 }
 @keyframes sharpen{

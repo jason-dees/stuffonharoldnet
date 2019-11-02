@@ -27,7 +27,7 @@ body{
 }
 
 button{
-    font-size:4em;
+    font-size:1em;
     border-radius: .1em;
     padding:10px;
     font-weight: bold;
@@ -58,3 +58,4 @@ button{
 .drop-area.active.right {
 	background-image: linear-gradient(to right, $gradient-start, $gradient-end);
 }
+
